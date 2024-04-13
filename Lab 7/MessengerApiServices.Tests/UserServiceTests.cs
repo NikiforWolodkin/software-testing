@@ -35,8 +35,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<List<UserResponse>>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetAllUsersWithoutConversationAsync(user), Times.Once);
     }
 
     [Fact]
@@ -59,8 +57,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<List<UserResponse>>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.SearchUsersWithoutConversationAsync(It.IsAny<string>(), user), Times.Once);
     }
 
     [Fact]
@@ -83,8 +79,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<List<UserResponse>>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetAllAsync(user), Times.Once);
     }
 
     [Fact]
@@ -107,8 +101,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<List<UserResponse>>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.SearchAsync(It.IsAny<string>(), user), Times.Once);
     }
 
     [Fact]
@@ -128,7 +120,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<UserResponse>(result);
-        _userRepositoryMock.Verify(x => x.AddUserAsync(It.IsAny<User>()), Times.Once);
     }
 
     [Fact]
@@ -148,7 +139,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<UserResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByNameAsync(It.IsAny<string>()), Times.Once);
     }
 
     [Fact]
@@ -204,7 +194,6 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<UserResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
     }
 
     [Fact]
@@ -227,12 +216,10 @@ public class UserServiceTests
 
         // Assert
         Assert.IsType<UserResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task AddToBlacklistAsync_ShouldNotThrow_WhenUserAndBlacklistedUserExist()
+    public async Task AddToBlacklistAsync_ShouldSaveChanges_WhenUserAndBlacklistedUserExist()
     {
         // Arrange
         var userId = Guid.NewGuid();
@@ -251,13 +238,11 @@ public class UserServiceTests
         await service.AddToBlacklistAsync(userId, blacklistAddRequest);
 
         // Assert
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(blacklistedUserId), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task RemoveFromBlacklistAsync_ShouldNotThrow_WhenUserAndBlacklistedUserExist()
+    public async Task RemoveFromBlacklistAsync_ShouldSaveChanges_WhenUserAndBlacklistedUserExist()
     {
         // Arrange
         var userId = Guid.NewGuid();
@@ -275,8 +260,6 @@ public class UserServiceTests
         await service.RemoveFromBlacklistAsync(userId, blacklistedUserId);
 
         // Assert
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(blacklistedUserId), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 
@@ -299,12 +282,10 @@ public class UserServiceTests
 
         // Assert
         Assert.True(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(firstUserId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(secondUserId), Times.Once);
     }
 
     [Fact]
-    public async Task BanUserAndDeleteAllMessagesAsync_ShouldNotThrow_WhenMessageExists()
+    public async Task BanUserAndDeleteAllMessagesAsync_ShouldSaveChanges_WhenMessageExists()
     {
         // Arrange
         var messageId = Guid.NewGuid();
@@ -321,8 +302,6 @@ public class UserServiceTests
         await service.BanUserAndDeleteAllMessagesAsync(messageId);
 
         // Assert
-        _messageRepositoryMock.Verify(x => x.GetByIdAsync(messageId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 }

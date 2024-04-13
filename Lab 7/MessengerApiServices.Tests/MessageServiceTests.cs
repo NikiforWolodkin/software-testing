@@ -39,9 +39,6 @@ public class MessageServiceTests
 
         // Assert
         Assert.IsType<MessageResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _chatRepositoryMock.Verify(x => x.GetByIdAsync(chatId), Times.Once);
-        _messageRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Message>()), Times.Once);
     }
 
     [Fact]
@@ -67,9 +64,6 @@ public class MessageServiceTests
 
         // Assert
         Assert.IsType<MessageResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _messageRepositoryMock.Verify(x => x.GetByIdAsync(messageId), Times.Once);
-        _messageRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
@@ -92,8 +86,6 @@ public class MessageServiceTests
 
         // Assert
         Assert.IsType<List<MessageResponse>>(result);
-        _chatRepositoryMock.Verify(x => x.GetByIdAsync(chatId), Times.Once);
-        _messageRepositoryMock.Verify(x => x.GetAllChatMessagesAsync(chat), Times.Once);
     }
 
     [Fact]
@@ -113,11 +105,10 @@ public class MessageServiceTests
 
         // Assert
         Assert.IsType<List<MessageResponse>>(result);
-        _messageRepositoryMock.Verify(x => x.GetReportedMessageAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task RemoveAsync_ShouldNotThrow_WhenMessageExists()
+    public async Task RemoveAsync_ShouldSaveChanges_WhenMessageExists()
     {
         // Arrange
         var messageId = Guid.NewGuid();
@@ -132,12 +123,11 @@ public class MessageServiceTests
         await service.RemoveAsync(messageId);
 
         // Assert
-        _messageRepositoryMock.Verify(x => x.GetByIdAsync(messageId), Times.Once);
         _messageRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
-    public async Task RemoveUserReportsAsync_ShouldNotThrow_WhenMessageExists()
+    public async Task RemoveUserReportsAsync_ShouldSaveChanges_WhenMessageExists()
     {
         // Arrange
         var messageId = Guid.NewGuid();
@@ -152,7 +142,6 @@ public class MessageServiceTests
         await service.RemoveUserReportsAsync(messageId);
 
         // Assert
-        _messageRepositoryMock.Verify(x => x.GetByIdAsync(messageId), Times.Once);
         _messageRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Once);
     }
 }

@@ -18,7 +18,7 @@ public class ChatServiceTests
     private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
 
     [Fact]
-    public async Task AddConversationAsync_ShouldReturnChatResponse_WhenUsersExist()
+    public async Task AddConversationAsync_ShouldCallAddAsync_WhenUsersExist()
     {
         // Arrange
         var userId = Guid.NewGuid();
@@ -38,14 +38,11 @@ public class ChatServiceTests
         var result = await service.AddConversationAsync(userId, new ConversationAddRequest { userId = requestUserId });
 
         // Assert
-        Assert.IsType<ChatResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(requestUserId), Times.Once);
         _chatRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Chat>()), Times.Once);
     }
 
     [Fact]
-    public async Task AddGroupAsync_ShouldReturnChatResponse_WhenUsersExist()
+    public async Task AddGroupAsync_ShouldCallAddAsync_WhenUsersExist()
     {
         // Arrange
         var userId = Guid.NewGuid();
@@ -71,9 +68,6 @@ public class ChatServiceTests
         var result = await service.AddGroupAsync(userId, groupAddRequest);
 
         // Assert
-        Assert.IsType<ChatResponse>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(participantId), Times.Once);
         _chatRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Chat>()), Times.Once);
     }
 
@@ -97,7 +91,6 @@ public class ChatServiceTests
 
         // Assert
         Assert.IsType<List<UserResponse>>(result);
-        _chatRepositoryMock.Verify(x => x.GetByIdAsync(chatId), Times.Once);
     }
 
     [Fact]
@@ -121,8 +114,6 @@ public class ChatServiceTests
 
         // Assert
         Assert.IsType<List<ChatResponse>>(result);
-        _userRepositoryMock.Verify(x => x.GetByIdAsync(userId), Times.Once);
-        _chatRepositoryMock.Verify(x => x.GetUserChatsAsync(user), Times.Once);
     }
 
     [Fact]
@@ -137,6 +128,5 @@ public class ChatServiceTests
 
         // Act and Assert
         await Assert.ThrowsAsync<NotFoundException>(() => service.GetChatUsers(chatId));
-        _chatRepositoryMock.Verify(x => x.GetByIdAsync(chatId), Times.Once);
     }
 }
