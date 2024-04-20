@@ -30,14 +30,12 @@ public class CatalogTests
 
         var priceInputXPath = "//input[@class='input-style input-style_primary input-style_small catalog-form__input catalog-form__input_width_full'][@placeholder='от']";
         var priceInput = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(priceInputXPath)));
-        priceInput.Clear();
         priceInput.SendKeys("500");
-        priceInput.SendKeys(Keys.Enter);
 
         var buttonXPath = "//div[contains(@class, 'button-style button-style_either button-style_small catalog-form__button catalog-form__button_tag') and contains(text(), 'от 500')]";
         var button = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(buttonXPath)));
 
-        Assert.That(button.Text, Is.EqualTo("от 500"));
+        Assert.That(button.Text, Is.EqualTo("от 500")); 
     }
 
     [TearDown]
