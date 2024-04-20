@@ -18,7 +18,7 @@ public class CatalogTests
     }
 
     [Test]
-    public void WhenUsingPriceFilter_PriceTagShouldAppear()
+    public void WhenUsingPriceFilter_PriceFilterTagShouldAppear_WithCorrectPrice()
     {
         _driver.Manage().Window.Maximize();
 
