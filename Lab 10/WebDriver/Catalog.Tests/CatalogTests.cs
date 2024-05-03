@@ -15,9 +15,14 @@ public class CatalogTests
     public void Setup()
     {
         var chromeOptions = new ChromeOptions();
+        chromeOptions.AddArgument("--start-maximized");
+
+        // Parameters to use when running in Docker
+        chromeOptions.AddArgument("--window-size=1920,1080");
         chromeOptions.AddArguments("--no-sandbox");
         chromeOptions.AddArguments("--disable-dev-shm-usage");
         chromeOptions.AddArguments("--headless");
+        chromeOptions.AddArguments("--disable-infobars");
 
         _driver = new ChromeDriver(chromeOptions);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
@@ -29,8 +34,6 @@ public class CatalogTests
         const int price = 500;
 
         var homePage = new HomePage(_driver, _wait);
-
-        _driver.Manage().Window.Maximize();
 
         homePage.GoToPage();
 
@@ -49,8 +52,6 @@ public class CatalogTests
         const int price = 500;
 
         var homePage = new HomePage(_driver, _wait);
-
-        _driver.Manage().Window.Maximize();
 
         homePage.GoToPage();
 
