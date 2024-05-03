@@ -14,7 +14,10 @@ public class CatalogTests
     [SetUp]
     public void Setup()
     {
-        _driver = new ChromeDriver();
+        var chromeOptions = new ChromeOptions();
+        chromeOptions.AddArgument("--no-sandbox");
+
+        _driver = new ChromeDriver(chromeOptions);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
     }
 
