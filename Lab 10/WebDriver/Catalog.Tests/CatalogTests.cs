@@ -15,7 +15,8 @@ public class CatalogTests
     public void Setup()
     {
         var chromeOptions = new ChromeOptions();
-        chromeOptions.AddArgument("--no-sandbox");
+        chromeOptions.AddArguments("--no-sandbox");
+        chromeOptions.AddArguments("--disable-dev-shm-usage");
 
         _driver = new ChromeDriver(chromeOptions);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
