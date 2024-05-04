@@ -22,7 +22,6 @@ public class CatalogTests
         chromeOptions.AddArguments("--no-sandbox");
         chromeOptions.AddArguments("--disable-dev-shm-usage");
         chromeOptions.AddArguments("--headless");
-        chromeOptions.AddArguments("--disable-infobars");
 
         _driver = new ChromeDriver(chromeOptions);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
