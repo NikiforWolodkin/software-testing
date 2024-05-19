@@ -1,4 +1,6 @@
-﻿using Catalog.Tests.Driver;
+﻿#define IS_DOCKER
+
+using Catalog.Tests.Driver;
 using Catalog.Tests.PageObjects;
 using Catalog.Tests.Services;
 using NUnit.Framework;
