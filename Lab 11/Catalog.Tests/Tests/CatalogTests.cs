@@ -222,8 +222,7 @@ public class CatalogTests
     public void WhenAddingIncorrectImageToListing_ErrorMessageAppears()
     {
         // Not really possible to automate - upload causes log out
-        if (UseDockerConfig)
-            return;
+        return;
 
         const string filePath = "./../../../Config/Cookies.json";
 
