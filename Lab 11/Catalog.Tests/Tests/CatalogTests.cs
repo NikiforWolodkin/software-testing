@@ -236,7 +236,7 @@ public class CatalogTests
         listingsPage.AddListing();
 
         // Upload file
-        Thread.Sleep(5000);
+        Thread.Sleep(12500);
 
         var message = listingsPage.GetUploadFailedMessage();
 
