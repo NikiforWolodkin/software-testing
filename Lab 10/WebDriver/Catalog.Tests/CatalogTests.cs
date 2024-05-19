@@ -18,10 +18,10 @@ public class CatalogTests
         chromeOptions.AddArgument("--start-maximized");
 
         // Parameters to use when running in Docker
-        chromeOptions.AddArgument("--window-size=1920,1080");
-        chromeOptions.AddArguments("--no-sandbox");
-        chromeOptions.AddArguments("--disable-dev-shm-usage");
-        chromeOptions.AddArguments("--headless");
+        //chromeOptions.AddArgument("--window-size=1920,1080");
+        //chromeOptions.AddArguments("--no-sandbox");
+        //chromeOptions.AddArguments("--disable-dev-shm-usage");
+        //chromeOptions.AddArguments("--headless");
 
         _driver = new ChromeDriver(chromeOptions);
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
