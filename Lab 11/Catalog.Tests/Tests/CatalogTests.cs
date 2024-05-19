@@ -1,5 +1,6 @@
 ﻿using Catalog.Tests.Driver;
 using Catalog.Tests.PageObjects;
+using Catalog.Tests.Services;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -8,13 +9,21 @@ namespace Catalog.Tests.Tests;
 
 public class CatalogTests
 {
+#if IS_DOCKER
+    private const bool UseDockerConfig = true;
+#else
+    private const bool UseDockerConfig = false;
+#endif
+
     private IWebDriver _driver;
     private WebDriverWait _wait;
 
     [SetUp]
     public void Setup()
     {
-        _driver = DriverManager.GetInstance(false);
+
+
+        _driver = DriverManager.GetInstance(UseDockerConfig);
         _wait = DriverManager.GetWaitInstance();
     }
 
@@ -205,6 +214,33 @@ public class CatalogTests
         var parameter = comparisonPage.GetHighlightedParameter(option);
 
         Assert.That(parameter, !Is.Null);
+    }
+
+    [Test]
+    public void WhenAddingIncorrectImageToListing_ErrorMessageAppears()
+    {
+        // Not really possible to automate - upload causes log out
+        if (UseDockerConfig)
+            return;
+
+        const string filePath = "./../../../Config/Cookies.json";
+
+        AuthService.Authorize(_driver, filePath);
+
+        var homePage = new HomePage(_driver, _wait);
+
+        homePage.GoToPage();
+
+        var listingsPage = homePage.GoToListings();
+
+        listingsPage.AddListing();
+
+        // Upload file
+        Thread.Sleep(5000);
+
+        var message = listingsPage.GetUploadFailedMessage();
+
+        Assert.That(message, !Is.Null);
     }
 
     [TearDown]

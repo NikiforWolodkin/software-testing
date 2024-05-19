@@ -13,6 +13,9 @@ public class HomePage
     private readonly By _smartphones = By.XPath("//span[contains(text(), 'Смартфоны')]");
     private readonly By _searchInput = By.XPath("//form[contains(@class, 'fast-search__form')]//input[@type='text']");
     private readonly By _notFoundMessage = By.XPath("//div[contains(@class, 'search__suggest-addon') and contains(text(), 'Ничего не найдено')]");
+    private readonly By _accountArrow = By.XPath("//a[@class='b-top-profile__preview']");
+    private readonly By _myListingsArrow = By.XPath("//span[@class='b-top-profile__link b-top-profile__link_alter' and normalize-space()='Мои объявления']");
+    private readonly By _listings = By.XPath("//a[@class='b-top-profile__link b-top-profile__link_alter' and normalize-space()='Объявления в барахолке']");
 
     public HomePage(IWebDriver driver, WebDriverWait wait)
     {
@@ -69,6 +72,15 @@ public class HomePage
     public ProductPage GoToProductPage(string productName)
     {
         GetProductLink(productName)!.Click();
+
+        return new (_driver, _wait);
+    }
+
+    public ListingsPage GoToListings()
+    {
+        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(_accountArrow)).Click();
+        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(_myListingsArrow)).Click();
+        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(_listings)).Click();
 
         return new (_driver, _wait);
     }
